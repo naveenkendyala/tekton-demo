@@ -8,19 +8,19 @@
 #Light Gray   0;37     White         1;37
 # Scale it back to 0 instance
 
-read -p $'\e[32m[STEP-00] : Change to tekton-demo project \e[0m: '
+read -p $'\e[32m[STEP] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
 
-read -p $'\e[32m[STEP-01] : Create the Task with Hello Param\e[0m: '
+read -p $'\e[32m[STEP] : Create the Task with Hello Param\e[0m: '
 oc apply -f demo/02.hello.task.param.yaml
 echo ""
 
-read -p $'\e[32m[STEP-02] : List the tasks available in namespace \e[0m: tkn task ls'
+read -p $'\e[32m[STEP] : List the tasks available in namespace \e[0m: tkn task ls'
 tkn task ls
 echo ""
 
-read -p $'\e[32m[STEP-03] : Run the Task and observe the output \e[0m: tkn task start hello-param -p "entity=Tekton Using Params" --showlog'
+read -p $'\e[32m[STEP] : Run the Task and observe the output \e[0m: tkn task start hello-param -p "entity=Tekton Using Params" --showlog'
 tkn task start hello-param -p "entity=Tekton Using Params" --showlog
 echo ""
 
