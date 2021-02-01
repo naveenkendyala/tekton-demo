@@ -1,0 +1,25 @@
+#Git Source Resource
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git-source
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/redhat-scholars/tekton-tutorial-greeter
+    - name: revision
+      value: master
+
+#Image Resource
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: tekton-repo-quarkus-image
+spec:
+  type: image
+  params:
+    - name: url
+      # Usng the internal OpenShift Registry
+      value: "image-registry.openshift-image-registry.svc:5000/tekton-demo/quarkus-greet"
