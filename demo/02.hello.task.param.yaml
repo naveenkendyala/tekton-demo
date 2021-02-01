@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: hello-param
+spec:
+  params:
+    - name: entity
+      description: Name of entity to greet
+      default: Tekton
+      type: string
+  steps:
+    - name: say-hello
+      image: registry.access.redhat.com/ubi8/ubi
+      command:
+        - /bin/bash
+      args: ['-c', 'echo Hello $(params.entity)']
