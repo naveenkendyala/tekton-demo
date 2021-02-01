@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mvn-build-ls
+spec:
+  resources:
+    inputs:
+      - name: source
+        type: git
+  params:
+    - name: contextDir
+      description: "The context directory within the repository for sources"
+      default: quarkus
+  steps:
+    - name: maven-build
+      image: docker.io/maven:3.6.3-openjdk-11-slim
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"
+      args:
+        - mvn
+        - -DskipTests
+        - clean
+        - package
+    - name: ls-target
+      image: busybox
+      command:
+        ["ls", "-ltr", "/workspace/source/$(inputs.params.contextDir)/target"]
