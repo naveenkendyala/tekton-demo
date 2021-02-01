@@ -1,0 +1,22 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-repo-ls
+spec:
+  # Provide the parameters
+  params:
+    - name: contextDir
+      description: "The context directory within the repository for sources"
+      default: quarkus
+  # Provide the resources to be used
+  resources:
+    inputs:
+      - name: source
+        type: git
+  steps:
+    - name: ls-build-sources
+      image: busybox
+      # The workspace folder is always the value of the "name" tag in the resources of type "git"
+      # In this case "source"
+      command: ["ls", "-ltr", "/workspace/source/$(inputs.params.contextDir)"]
