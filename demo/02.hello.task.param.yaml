@@ -8,12 +8,16 @@ spec:
       description: Name of entity to greet
       default: Tekton
       type: string
+  #Multiple Steps to demonstrate the Task
   steps:
+    #Simple Hello
     - name: say-hello
       image: registry.access.redhat.com/ubi8/ubi
       command:
         - /bin/bash
       args: ['-c', 'echo Hello Tekton !']  
+    
+    #Simple Hello which takes the parameters      
     - name: say-hello-param
       image: registry.access.redhat.com/ubi8/ubi
       command:
