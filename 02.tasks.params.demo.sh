@@ -12,15 +12,15 @@ read -p $'\e[32m[STEP-00] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
 
-read -p $'\e[32m[STEP-01] : Create the Task with Hello \e[0m: '
-oc apply -f demo/01.hello.task.yaml
+read -p $'\e[32m[STEP-01] : Create the Task with Hello Param\e[0m: '
+oc apply -f demo/02.hello.task.param.yaml
 echo ""
 
 read -p $'\e[32m[STEP-02] : List the tasks available in namespace \e[0m: tkn task ls'
 tkn task ls
 echo ""
 
-read -p $'\e[32m[STEP-03] : Run the Task and observe the output \e[0m: tkn task start hello --showlog'
-tkn task start hello --showlog
+read -p $'\e[32m[STEP-03] : Run the Task and observe the output \e[0m: tkn task start hello-param -p "entity=Tekton Using Params" --showlog'
+tkn task start hello-param -p "entity=Tekton Using Params" --showlog
 echo ""
 
