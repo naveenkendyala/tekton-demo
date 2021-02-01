@@ -12,8 +12,8 @@ read -p $'\e[32m[STEP] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
 
-read -p $'\e[32m[STEP] : Create the Task with Hello Param\e[0m: '
-oc apply -f demo/02.hello.task.param.yaml
+read -p $'\e[32m[STEP] : Create the **MULTI-STEP** Task with Hello Param \e[0m: '
+oc apply -f demo/tasks/hello.task.param.yaml
 echo ""
 
 read -p $'\e[32m[STEP] : List the tasks available in namespace \e[0m: tkn task ls'

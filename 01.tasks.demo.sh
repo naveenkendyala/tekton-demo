@@ -13,7 +13,7 @@ oc project tekton-demo
 echo ""
 
 read -p $'\e[32m[STEP] : Create the Task with Hello \e[0m: '
-oc apply -f demo/01.hello.task.yaml
+oc apply -f demo/tasks/hello.task.yaml
 echo ""
 
 read -p $'\e[32m[STEP] : List the tasks available in namespace \e[0m: tkn task ls'
