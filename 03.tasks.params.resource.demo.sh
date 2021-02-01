@@ -8,16 +8,20 @@
 #Light Gray   0;37     White         1;37
 # Scale it back to 0 instance
 
+#Variables
+TASKS_DIR=demo/tasks
+RESOURCES_DIR=demo/resources
+
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Create the Resources \e[0m: '
-oc apply -f demo/resources/resource.build.yaml
+oc apply -f $RESOURCES_DIR/resource.build.yaml
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Create the Task with Param and Resource \e[0m: '
-oc apply -f demo/tasks/task.git.repo.ls.yaml
+oc apply -f $TASKS_DIR/task.git.repo.ls.yaml
 echo ""
 
 read -p $'\e[32m[SCRIPT] : List the tasks available in namespace \e[0m: tkn task ls'

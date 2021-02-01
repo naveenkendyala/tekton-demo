@@ -8,12 +8,15 @@
 #Light Gray   0;37     White         1;37
 # Scale it back to 0 instance
 
+#Variables
+TASKS_DIR=demo/tasks
+
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Create the **MULTI-STEP** Task with Hello Param \e[0m: '
-oc apply -f demo/tasks/task.hello.param.yaml
+oc apply -f $TASKS_DIR/task.hello.param.yaml
 echo ""
 
 read -p $'\e[32m[SCRIPT] : List the tasks available in namespace \e[0m: tkn task ls'
