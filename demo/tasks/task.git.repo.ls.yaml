@@ -7,7 +7,7 @@ spec:
   params:
     - name: contextDir
       description: "The context directory within the repository for sources"
-      default: quarkus
+      default: greetings-app/java/quarkus-api
   # Provide the resources to be used
   resources:
     inputs:

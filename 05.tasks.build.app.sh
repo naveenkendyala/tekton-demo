@@ -32,8 +32,8 @@ echo ""
 tkn resources ls
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start build-app -p "contextDir=quarkus" -i="source=git-source" -o="builtImage=tekton-repo-quarkus-image" --showlog'
-tkn task start build-app -p "contextDir=quarkus" -i="source=git-source" -o="builtImage=tekton-repo-quarkus-image" --showlog
+read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start build-app -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" -o="builtImage=tekton-repo-quarkus-image" --showlog'
+tkn task start build-app -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" -o="builtImage=tekton-repo-quarkus-image" --showlog
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
