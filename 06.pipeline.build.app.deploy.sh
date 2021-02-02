@@ -39,10 +39,10 @@ echo ""
 tkn pipeline ls
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Run the Pipeline and observe the output \e[0m: '
+read -p $'\e[32m[SCRIPT] : Run the Pipeline and observe the output \e[0m: tkn pipeline start build-app-deploy -p "contextDir=quarkus" -r="appSource=git-source" -r="appImage=tekton-repo-quarkus-image" -s="pipeline" --showlog'
 tkn pipeline start build-app-deploy -p "contextDir=quarkus" -r="appSource=git-source" -r="appImage=tekton-repo-quarkus-image" -s="pipeline" --showlog
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
-$UTILS_DIR/clean.project.sh
-echo ""
+#read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
+#$UTILS_DIR/clean.project.sh
+#echo ""
