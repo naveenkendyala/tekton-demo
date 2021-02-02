@@ -10,6 +10,8 @@
 
 #Variables
 TASKS_DIR=demo/tasks
+UTILS_DIR=demo/utils
+
 
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
@@ -27,3 +29,6 @@ read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task s
 tkn task start hello-param -p "entity=Tekton Using Params" --showlog
 echo ""
 
+read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
+$UTILS_DIR/clean.project.sh
+echo ""

@@ -11,6 +11,7 @@
 #Variables
 TASKS_DIR=demo/tasks
 RESOURCES_DIR=demo/resources
+UTILS_DIR=demo/utils
 
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
@@ -24,11 +25,16 @@ read -p $'\e[32m[SCRIPT] : Create the Task with Param and Resource \e[0m: '
 oc apply -f $TASKS_DIR/task.mvn.build.ls.yaml
 echo ""
 
-read -p $'\e[32m[SCRIPT] : List the tasks available in namespace \e[0m: tkn task ls'
+read -p $'\e[32m[SCRIPT] : List the tasks & resource available in namespace \e[0m: tkn task ls; tkn resources ls'
 tkn task ls
+echo ""
+tkn resources ls
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start mvn-build-ls -p "contextDir=quarkus" -i="source=git-source" --showlog'
 tkn task start mvn-build-ls -p "contextDir=quarkus" -i="source=git-source" --showlog
 echo ""
 
+read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
+$UTILS_DIR/clean.project.sh
+echo ""
