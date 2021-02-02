@@ -22,4 +22,4 @@ spec:
   params:
     - name: url
       # Usng the internal OpenShift Registry
-      value: "image-registry.openshift-image-registry.svc:5000/tekton-demo/quarkus-greet:latest"
+      value: "image-registry.openshift-image-registry.svc:5000/tekton-demo/quarkus-greet"
