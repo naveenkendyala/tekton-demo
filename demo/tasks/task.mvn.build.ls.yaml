@@ -10,7 +10,7 @@ spec:
   params:
     - name: contextDir
       description: "The context directory within the repository for sources"
-      default: quarkus
+      default: "greetings-app/java/quarkus-api"
   steps:
     - name: maven-build
       image: docker.io/maven:3.6.3-openjdk-11-slim

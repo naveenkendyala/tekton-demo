@@ -32,8 +32,8 @@ echo ""
 tkn resources ls
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start mvn-build-ls -p "contextDir=quarkus" -i="source=git-source" --showlog'
-tkn task start mvn-build-ls -p "contextDir=quarkus" -i="source=git-source" --showlog
+read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start mvn-build-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog'
+tkn task start mvn-build-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
