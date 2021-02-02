@@ -43,6 +43,6 @@ spec:
           value:
             - "apply"
             - "-f"
-            - "/workspace/source/k8s/deployment.yaml"
+            - "/workspace/source/$(params.contextDir)/src/main/deployments/ocp/deployment.yaml"
             - "-f"
-            - "/workspace/source/k8s/service.yaml"
+            - "/workspace/source/$(params.contextDir)/src/main/deployments/ocp/service.yaml"
