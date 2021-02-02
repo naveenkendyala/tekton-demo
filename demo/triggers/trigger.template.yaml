@@ -24,7 +24,7 @@ spec:
         # Pass the Parameters to the Template
         params:
           - name: contextDir
-            value: quarkus
+            value: greetings-app/java/quarkus-api
         
         # Pass the Resources to the Template
         resources:
