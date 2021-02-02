@@ -7,7 +7,7 @@ spec:
   type: git
   params:
     - name: url
-      value: https://github.com/redhat-scholars/tekton-tutorial-greeter
+      value: https://github.com/naveenkendyala/tekton-tutorial-greeter
     - name: revision
       value: master
 
