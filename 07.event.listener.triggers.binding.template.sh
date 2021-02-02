@@ -32,4 +32,10 @@ read -p $'\e[32m[SCRIPT] : Create the Trigger Template, pass the params & resour
 oc apply -f $TRIGGERS_DIR/trigger.template.yaml
 echo ""
 
+read -p $'\e[32m[SCRIPT] : Expose the Event Listener \e[0m: '
+oc expose svc/el-github-ea-webhook --port=8080
+echo ""
+
+read -p $'\e[32m[SCRIPT] Create a Web Hook in the GitHub \e[0m: '
+
 read -p $'\e[32m[SCRIPT] Make a change in the Source Repository and Test \e[0m: '
