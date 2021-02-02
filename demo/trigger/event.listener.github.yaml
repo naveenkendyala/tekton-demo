@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: gitea-webhook
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - name: tekton-greeter-webhook
+      bindings:
+        - ref: quarkus-greeter-tb
+      template:
+        name: quarkus-greeter-template
