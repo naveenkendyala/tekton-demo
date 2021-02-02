@@ -68,10 +68,13 @@ spec:
         - "buildah"
       args:
         # creates the image from the docker file
+        # bud is an alias for build using dockerfile
         - "bud"
         - "--layers"
+        # Provide a file option
         - "-f"
         - "$(inputs.params.dockerFile)"
+        # Provide a tag for the image
         - "-t"
         - "$(inputs.params.destinationImage)"
         - "."
