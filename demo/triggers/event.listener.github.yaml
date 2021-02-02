@@ -1,12 +1,14 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
-  name: gitea-webhook
+  name: github-ea-webhook
 spec:
   serviceAccountName: pipeline
   triggers:
     - name: tekton-greeter-webhook
+      # Trigger Bindings Resource Reference
       bindings:
         - ref: quarkus-greeter-tb
+      # Trigger Template Resource Reference
       template:
         name: quarkus-greeter-template
