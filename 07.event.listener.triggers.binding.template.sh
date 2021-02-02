@@ -31,11 +31,4 @@ read -p $'\e[32m[SCRIPT] : Create the Trigger Template, pass the params & resour
 oc apply -f $TRIGGERS_DIR/trigger.template.yaml
 echo ""
 
-
-read -p $'\e[32m[SCRIPT] : Run the Pipeline and observe the output \e[0m: tkn pipeline start build-app-deploy -p "contextDir=quarkus" -r="appSource=git-source" -r="appImage=tekton-repo-quarkus-image" -s="pipeline" --showlog'
-tkn pipeline start build-app-deploy -p "contextDir=quarkus" -r="appSource=git-source" -r="appImage=tekton-repo-quarkus-image" -s="pipeline" --showlog
-echo ""
-
-#read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
-#$UTILS_DIR/clean.project.sh
-#echo ""
+read -p $'\e[32m[SCRIPT] Make a change in the Source Repository and Test \e[0m: '
