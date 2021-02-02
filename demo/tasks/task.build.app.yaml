@@ -67,6 +67,7 @@ spec:
       command:
         - "buildah"
       args:
+        # creates the image from the docker file
         - "bud"
         - "--layers"
         - "-f"

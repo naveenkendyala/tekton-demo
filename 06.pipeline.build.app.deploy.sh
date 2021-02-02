@@ -14,6 +14,7 @@ RESOURCES_DIR=demo/resources
 PIPELINES_DIR=demo/pipelines
 UTILS_DIR=demo/utils
 
+echo ""
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""

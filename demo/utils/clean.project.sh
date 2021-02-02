@@ -15,3 +15,4 @@ oc delete deployments --all
 oc delete pods --field-selector=status.phase=Succeeded
 oc delete pods --field-selector=status.phase=Failed
 oc delete pods --all
+oc delete is/quarkus-greet

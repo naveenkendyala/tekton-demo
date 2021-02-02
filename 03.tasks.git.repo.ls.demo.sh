@@ -13,6 +13,7 @@ TASKS_DIR=demo/tasks
 RESOURCES_DIR=demo/resources
 UTILS_DIR=demo/utils
 
+echo ""
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
 oc project tekton-demo
 echo ""
