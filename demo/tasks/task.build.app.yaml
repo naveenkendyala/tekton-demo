@@ -1,0 +1,94 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-app
+spec:
+  #This step template is applicable for all the steps in the task
+  # Reusabilty
+  stepTemplate:
+    name: security-template
+    # Running buildah inside the container requires root privileges
+    securityContext:
+      runAsUser: 0
+      privileged: true
+    
+    # Buildah creates the container in the /var/lib/containers folder
+    volumeMounts:
+      - name: varlibc
+        mountPath: /var/lib/containers
+  
+  # The parameters needed for the Task to Run
+  params:
+    - name: contextDir
+      description: the context dir within source
+      default: .
+    - name: mavenMirrorUrl
+      description: the maven mirrror url
+      default: https://repo.maven.apache.org/maven2/
+    - name: destinationImage
+      description: the fully qualified image name
+      default: "$(outputs.resources.builtImage.url)"
+    - name: dockerFile
+      description: the docker file to used for building the application
+      default: Dockerfile
+    - name: tlsVerify
+      description: tls verify
+      type: string
+      default: "false"
+  
+  # The resources for the Task
+  resources:
+    inputs:
+      - name: source
+        type: git
+    # The outout of the task. The image will be referred as the builtImage
+    outputs:
+      - name: builtImage
+        type: image
+  steps:
+    # Maven create the artifact
+    - name: build-sources
+      image: docker.io/maven:3.6.3-openjdk-11-slim
+      command:
+        - mvn
+      args:
+        - -DskipTests
+        - clean
+        - package
+      # The environment variables that will be set in the container
+      env:
+        - name: user.home
+          value: /home/tekton
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"
+    
+    # Build the image from the Docker File present in the source repository
+    - name: build-image
+      image: quay.io/buildah/stable
+      command:
+        - "buildah"
+      args:
+        - "bud"
+        - "--layers"
+        - "-f"
+        - "$(inputs.params.dockerFile)"
+        - "-t"
+        - "$(inputs.params.destinationImage)"
+        - "."
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"
+    
+    # Push the imahe the internal registry
+    - name: push-image
+      image: quay.io/buildah/stable
+      command:
+        - "buildah"
+      args:
+        - "push"
+        - "--tls-verify=$(inputs.params.tlsVerify)"
+        - $(inputs.params.destinationImage)
+        - "docker://$(inputs.params.destinationImage)"
+      workingDir: "/workspace/source/$(inputs.params.contextDir)"
+  
+  # Attribute to mount the task to external volumes
+  volumes:
+    - name: varlibc
+      emptyDir: {}
