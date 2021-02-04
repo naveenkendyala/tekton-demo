@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: quarkus-app-deploy-
+  labels:
+    tekton.dev/pipeline: quarkus-app-deploy
+spec:
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: quarkus-app-deploy
+  params:
+    - name: context-dir
+      value: greetings-app/java/quarkus-api
+    - name: image-name
+      value: image-registry.openshift-image-registry.svc:5000/workspace-auth-demo/quarkus-greet      
+    - name: github-repo-url    
+      value: https://github.com/naveenkendyala/tekton-repo
+    - name: github-repo-revision
+      value: master
+  workspaces:
+    - name: maven-settings-cm
+      configmap:
+        name: maven-settings
+    - name: shared-pvc
+      persistentVolumeClaim:
+        claimName: shared-space-pvc

@@ -1,0 +1,86 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: quarkus-app-deploy
+spec:
+  description: >-
+    This pipeline is for the deployment of quarkus app using the workspaces concept
+  params:
+    - name: image-name
+      description: >- 
+        The fully qualified image name like [image-registry.openshift-image-registry.svc:5000/workspace-auth-demo/quarkus-greet]
+      default: default-image-name
+    - name: context-dir
+      description: >-
+        The application framework to use, value can be either quarkus or springboot
+      default: default-context-dir
+    - name: github-repo-url
+      description: The GitHub Repo of the Java Application
+      default: default-github-repo-url
+    - name: github-repo-revision
+      description: The GitHub revision to use
+      default: default-github-repo-revision
+  workspaces:
+    - name: shared-pvc
+    - name: maven-settings-cm
+  tasks:
+    # Clone the Repository to the volumes
+    - name: clone-repository
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: $(params.github-repo-url)
+        - name: revision
+          value: $(params.github-repo-revision)
+        # just to do a fresh clone, as we already have the directory cloned
+        # to reuse it we can exlude this step
+        - name: deleteExisting
+          value: 'true'
+      workspaces:
+        - name: output
+          workspace: shared-pvc
+
+    # Run the junit test cases in the project
+    - name: run-junit-test
+      taskRef:
+        name: maven
+        kind: ClusterTask
+      runAfter:
+        - clone-repository
+      params:
+        # -pl = Project location. For this to work, ensure it is a standalone project
+        # If there is a sub-directory, that will have to be converted to a multi-module project
+        # -B = Batch Mode
+        - name: GOALS
+          value: ['-pl', '$(params.context-dir)', '-B', 'clean', 'test']
+      workspaces:
+        - name: maven-settings
+          workspace: maven-settings-cm
+        - name: source
+          workspace: shared-pvc
+
+    # Build the jar file for the application
+    - name: build-java-app
+      taskRef:
+        name: maven
+        kind: ClusterTask
+      runAfter:
+        - run-junit-test
+      params:
+        - name: GOALS
+          value:
+            [
+              '-pl',
+              '$(params.context-dir)',
+              '-B',
+              '-DskipTests',
+              'clean',
+              'package',
+            ]
+      workspaces:
+        - name: maven-settings
+          workspace: maven-settings-cm
+        - name: source
+          workspace: shared-pvc

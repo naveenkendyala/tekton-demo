@@ -80,7 +80,7 @@ spec:
         - "."
       workingDir: "/workspace/source/$(inputs.params.contextDir)"
     
-    # Push the imahe the internal registry
+    # Push the image the internal registry
     - name: push-image
       image: quay.io/buildah/stable
       command:
