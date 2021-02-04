@@ -9,9 +9,8 @@
 # Scale it back to 0 instance
 
 #Variables
-TASKS_DIR=demo/tasks
-UTILS_DIR=demo/utils
-
+TASKS_DIR=../artifacts/tasks
+UTILS_DIR=../artifacts/utilities
 
 echo ""
 $UTILS_DIR/clean.project.sh

@@ -9,9 +9,9 @@
 # Scale it back to 0 instance
 
 #Variables
-TASKS_DIR=demo/tasks
-RESOURCES_DIR=demo/resources
-UTILS_DIR=demo/utils
+TASKS_DIR=../artifacts/tasks
+RESOURCES_DIR=../artifacts/resources
+UTILS_DIR=../artifacts/utilities
 
 echo ""
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '

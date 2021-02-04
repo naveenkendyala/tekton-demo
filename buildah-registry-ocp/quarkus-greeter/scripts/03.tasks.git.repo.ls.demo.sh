@@ -9,9 +9,9 @@
 # Scale it back to 0 instance
 
 #Variables
-TASKS_DIR=demo/tasks
-RESOURCES_DIR=demo/resources
-UTILS_DIR=demo/utils
+TASKS_DIR=../artifacts/tasks
+RESOURCES_DIR=../artifacts/resources
+UTILS_DIR=../artifacts/utilities
 
 echo ""
 read -p $'\e[32m[SCRIPT] : Change to tekton-demo project \e[0m: '
@@ -23,7 +23,7 @@ oc apply -f $RESOURCES_DIR/resource.build.yaml
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Create the Task with Param and Resource \e[0m: '
-oc apply -f $TASKS_DIR/task.mvn.build.ls.yaml
+oc apply -f $TASKS_DIR/task.git.repo.ls.yaml
 echo ""
 
 read -p $'\e[32m[SCRIPT] : List the tasks & resource available in namespace \e[0m: tkn task ls; tkn resources ls'
@@ -32,8 +32,8 @@ echo ""
 tkn resources ls
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start mvn-build-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog'
-tkn task start mvn-build-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog
+read -p $'\e[32m[SCRIPT] : Run the Task and observe the output \e[0m: tkn task start git-repo-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog'
+tkn task start git-repo-ls -p "contextDir=greetings-app/java/quarkus-api" -i="source=git-source" --showlog
 echo ""
 
 read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
