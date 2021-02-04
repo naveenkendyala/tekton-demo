@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus
+spec:
+  selector:
+    matchLabels:
+      app: nexus
+  template:
+    metadata:
+      labels:
+        app: nexus
+    spec:
+      containers:
+        - name: nexus
+          image: quay.io/naveenkendyala/nexus3:3.29.2
+          # Nexus takes a lot of memory to Run
+          # This ensures that the default values does not cause the container to keep restarting
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2.5Gi"
+            limits:
+              cpu: "1.5"
+              memory: "3Gi"          
+          ports:
+            - containerPort: 8081
+              name: 8081-tcp
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8081-tcp
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /nexus-data/karaf.pid
+            initialDelaySeconds: 15
+            periodSeconds: 30            
+          # Nexus does a lot of initialization
+          # Bump up the periodSeconds if more time is needed
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8081-tcp
+            failureThreshold: 18
+            periodSeconds: 10
+          volumeMounts:
+            - name: nexus-data
+              mountPath: /nexus-data
+      volumes:
+        - name: nexus-data
+          emptyDir: {}
+---          
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus
+spec:
+  type: NodePort
+  selector:
+    app: nexus
+  ports:
+    - port: 8081
+      targetPort: 8081-tcp
