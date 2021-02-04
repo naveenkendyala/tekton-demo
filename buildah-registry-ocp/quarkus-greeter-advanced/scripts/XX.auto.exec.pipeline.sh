@@ -40,7 +40,7 @@ echo ""
 read -p $'\e[32m[SCRIPT] : Verify the Nexus Server \e[0m: '
 echo ""
 
-printf "${COLOR}[SCRIPT] : Create a Config map with the maven settings ${NC}: oc create cm maven-settings --from-file=settings.xml=$WORKSPACES_DIR/maven-settings.xml"
+printf "${COLOR}[SCRIPT] : Create a Config map with the maven settings ${NC}: oc create cm maven-settings --from-file=settings.xml=$WORKSPACES_DIR/maven-settings.xml \n"
 oc create cm maven-settings --from-file=settings.xml=$WORKSPACES_DIR/maven-settings.xml
 echo ""
 
