@@ -10,16 +10,20 @@ spec:
       description: >- 
         The fully qualified image name like [image-registry.openshift-image-registry.svc:5000/workspace-auth-demo/quarkus-greet]
       default: default-image-name
-    - name: context-dir
+    - name: contextDir
       description: >-
         The application framework to use, value can be either quarkus or springboot
-      default: default-context-dir
+      default: default-contextDir
     - name: github-repo-url
       description: The GitHub Repo of the Java Application
       default: default-github-repo-url
     - name: github-repo-revision
       description: The GitHub revision to use
       default: default-github-repo-revision
+  resources:
+    - name: appSource
+      type: git
+
   workspaces:
     - name: shared-pvc
     - name: maven-settings-cm
@@ -54,7 +58,14 @@ spec:
         # If there is a sub-directory, that will have to be converted to a multi-module project
         # -B = Batch Mode
         - name: GOALS
-          value: ['-pl', '$(params.context-dir)', '-B', 'clean', 'test']
+          value: 
+            [
+              '-pl', 
+              '$(params.contextDir)', 
+              '-B', 
+              'clean', 
+              'test'
+            ]
       workspaces:
         - name: maven-settings
           workspace: maven-settings-cm
@@ -73,14 +84,53 @@ spec:
           value:
             [
               '-pl',
-              '$(params.context-dir)',
+              '$(params.contextDir)',
               '-B',
               '-DskipTests',
               'clean',
-              'package',
+              'package'
             ]
       workspaces:
         - name: maven-settings
           workspace: maven-settings-cm
         - name: source
           workspace: shared-pvc
+
+    #build-oci-and-push
+    - name: build-oci-image-push
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      runAfter:
+        - build-java-app
+      params:
+        - name: CONTEXT
+          value: '$(params.contextDir)'
+        - name: IMAGE
+          value: '$(params.image-name)'
+        # Since pushing to internal registry we skip TLS verify
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: shared-pvc
+
+    # Deploy the application to the kubernets
+    - name: deploy-kubernetes-service
+      taskRef:
+        name: openshift-client
+        kind: ClusterTask
+      runAfter:
+        - build-oci-image-push
+      resources:
+        inputs:
+          - name: source
+            resource: appSource
+      params:
+        - name: ARGS
+          value:
+            - "apply"
+            - "-f"
+            - "/workspace/source/$(params.contextDir)/src/main/deployments/ocp/deployment.yaml"
+            - "-f"
+            - "/workspace/source/$(params.contextDir)/src/main/deployments/ocp/service.yaml"

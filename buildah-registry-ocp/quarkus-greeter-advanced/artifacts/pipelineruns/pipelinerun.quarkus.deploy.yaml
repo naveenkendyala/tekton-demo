@@ -9,10 +9,10 @@ spec:
   pipelineRef:
     name: quarkus-app-deploy
   params:
-    - name: context-dir
+    - name: contextDir
       value: greetings-app/java/quarkus-api
     - name: image-name
-      value: image-registry.openshift-image-registry.svc:5000/workspace-auth-demo/quarkus-greet      
+      value: image-registry.openshift-image-registry.svc:5000/tekton-demo-advanced/quarkus-greet      
     - name: github-repo-url    
       value: https://github.com/naveenkendyala/tekton-repo
     - name: github-repo-revision
@@ -24,3 +24,7 @@ spec:
     - name: shared-pvc
       persistentVolumeClaim:
         claimName: shared-space-pvc
+  resources:
+    - name: appSource
+      resourceRef:
+        name: git-source
