@@ -45,6 +45,17 @@ read -p $'\e[32m[SCRIPT] : Run the Pipeline and observe the output \e[0m: tkn pi
 tkn pipeline start build-app-deploy -p "contextDir=greetings-app/java/quarkus-api" -r="appSource=git-source" -r="appImage=tekton-repo-quarkus-image" -s="pipeline" --showlog
 echo ""
 
+read -p $'\e[32m[SCRIPT] : List the Service \e[0m: oc get svc '
+oc get svc
+echo ""
+
+read -p $'\e[32m[SCRIPT] : Expose the service \e[0m: oc expose svc/greeter --port=8080 '
+oc expose svc/greeter --port=8080
+echo ""
+
+
+
+
 #read -p $'\e[32m[SCRIPT] : Cleanup \e[0m: '
 #$UTILS_DIR/clean.project.sh
 #echo ""
