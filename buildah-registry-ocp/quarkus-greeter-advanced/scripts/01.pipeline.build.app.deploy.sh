@@ -61,7 +61,8 @@ echo ""
 
 read -p $'\e[32m[SCRIPT] : Execute the PipelineRun \e[0m: '
 oc create -f $PIPELINERUNS_DIR/pipelinerun.quarkus.app.deploy.yaml
-tkn pr logs -f -a $(tkn pr ls | awk 'NR==2{print $1}')
+# Run through the logs from the last pipeline run
+tkn pr logs -f -a --last
 echo ""
 
 read -p $'\e[32m[SCRIPT] : List the Service and expose it \e[0m: oc get svc; oc expose svc/greeter --port=8080 '

@@ -37,7 +37,7 @@ oc apply -f $UTILS_DIR/nexus.yaml
 oc expose svc/nexus --port=8081
 echo ""
 
-read -p $'\e[32m[SCRIPT] : Verify the Nexus Server \e[0m: '
+read -p $'\e[32m[SCRIPT] : Verify the Nexus Server. Prese Enter After verification \e[0m: '
 echo ""
 
 printf "${COLOR}[SCRIPT] : Create a Config map with the maven settings ${NC}: oc create cm maven-settings --from-file=settings.xml=$WORKSPACES_DIR/maven-settings.xml \n"
@@ -74,7 +74,8 @@ echo ""
 
 printf "${COLOR}[SCRIPT] : Execute the PipelineRun ${NC}\n"
 oc create -f $PIPELINERUNS_DIR/pipelinerun.quarkus.app.deploy.yaml
-tkn pr logs -f -a $(tkn pr ls | awk 'NR==2{print $1}')
+# Run through the logs from the last pipeline run
+tkn pr logs -f -a --last
 echo ""
 
 printf "${COLOR}[SCRIPT] : List the Service and expose it ${NC}: oc get svc; oc expose svc/greeter --port=8080"
@@ -83,5 +84,5 @@ echo ""
 oc expose svc/greeter --port=8080
 echo ""
 
-read -p $'\e[32m[SCRIPT] Create a Web Hook in the GitHub \e[0m: '
+printf "${COLOR}[SCRIPT] Create a Web Hook in the GitHub ${NC}\n"
 printf "${COLOR}[SCRIPT] Make a change in the Source Repository and Test ${NC}\n"
