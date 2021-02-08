@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nexus
-  annotations:
+  labels:
     app.kubernetes.io/part-of: ci-cd-tools
 spec:
   selector:
